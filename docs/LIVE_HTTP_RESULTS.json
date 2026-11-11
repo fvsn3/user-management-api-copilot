@@ -1,0 +1,471 @@
+{
+  "executed_by": "Codex automated verification, not a Copilot session",
+  "started_at_utc": "2026-11-11T14:39:49.868924+01:00",
+  "finished_at_utc": "2026-11-11T14:41:57.995824+01:00",
+  "main_program_sha256": "150907195c3699a5d9ba3718ed4c70458dd70e4aa153c02064d10a44b9c9404c",
+  "passed": true,
+  "main_source_unchanged": true,
+  "variants": {
+    "intentional-id-bug": {
+      "intentional_bug": true,
+      "build_exit_code": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 201,
+          "body": {
+            "id": 1,
+            "name": "Ana Primjer",
+            "email": "ana@example.com"
+          },
+          "location": "/api/users/1",
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 201,
+          "body": {
+            "id": 2,
+            "name": "Ivan Primjer",
+            "email": "ivan@example.com"
+          },
+          "location": "/api/users/2",
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "DELETE",
+          "path": "/api/users/1",
+          "status": 204,
+          "body": null,
+          "location": null,
+          "content_type": null,
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 500,
+          "body": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.6.1",
+            "title": "Unexpected server error",
+            "status": 500
+          },
+          "location": null,
+          "content_type": "application/problem+json",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/2",
+          "status": 200,
+          "body": {
+            "id": 2,
+            "name": "Ivan Primjer",
+            "email": "ivan@example.com"
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [
+            {
+              "id": 2,
+              "name": "Ivan Primjer",
+              "email": "ivan@example.com"
+            }
+          ],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 409,
+          "body": {
+            "error": "Email already exists."
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [
+            {
+              "id": 2,
+              "name": "Ivan Primjer",
+              "email": "ivan@example.com"
+            }
+          ],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        }
+      ],
+      "assertions": [
+        "Fresh process returns an empty list",
+        "First POST creates ID 1 with Location",
+        "Second POST creates ID 2 with Location",
+        "DELETE returns 204 without a response body",
+        "Controlled Count+1 defect reproduces HTTP 500",
+        "Error handler returns safe Problem JSON",
+        "HTTP 500 does not expose implementation details or token",
+        "Existing user 2 remains unchanged",
+        "List has exactly the expected surviving users",
+        "Case-insensitive duplicate email returns 409",
+        "Rejected duplicate does not change stored users",
+        "Server log does not contain the local bearer token",
+        "Completed-response log records success status and duration",
+        "Completed-response log records final handled-error status"
+      ],
+      "log_evidence": [
+        "GET /api/users -> 200 in 95 ms",
+        "POST /api/users -> 201 in 78 ms",
+        "POST /api/users -> 201 in 3 ms",
+        "DELETE /api/users/1 -> 204 in 1 ms",
+        "POST /api/users -> 500 in 247 ms",
+        "GET /api/users/2 -> 200 in 3 ms",
+        "GET /api/users -> 200 in 0 ms",
+        "POST /api/users -> 409 in 4 ms",
+        "GET /api/users -> 200 in 0 ms"
+      ],
+      "passed": true,
+      "launched_process_stopped": true
+    },
+    "corrected-main-copy": {
+      "intentional_bug": false,
+      "build_exit_code": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 201,
+          "body": {
+            "id": 1,
+            "name": "Ana Primjer",
+            "email": "ana@example.com"
+          },
+          "location": "/api/users/1",
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 201,
+          "body": {
+            "id": 2,
+            "name": "Ivan Primjer",
+            "email": "ivan@example.com"
+          },
+          "location": "/api/users/2",
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "DELETE",
+          "path": "/api/users/1",
+          "status": 204,
+          "body": null,
+          "location": null,
+          "content_type": null,
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 201,
+          "body": {
+            "id": 3,
+            "name": "Mia Primjer",
+            "email": "mia@example.com"
+          },
+          "location": "/api/users/3",
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/2",
+          "status": 200,
+          "body": {
+            "id": 2,
+            "name": "Ivan Primjer",
+            "email": "ivan@example.com"
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [
+            {
+              "id": 2,
+              "name": "Ivan Primjer",
+              "email": "ivan@example.com"
+            },
+            {
+              "id": 3,
+              "name": "Mia Primjer",
+              "email": "mia@example.com"
+            }
+          ],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 409,
+          "body": {
+            "error": "Email already exists."
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [
+            {
+              "id": 2,
+              "name": "Ivan Primjer",
+              "email": "ivan@example.com"
+            },
+            {
+              "id": 3,
+              "name": "Mia Primjer",
+              "email": "mia@example.com"
+            }
+          ],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 400,
+          "body": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            "title": "Invalid HTTP request",
+            "status": 400
+          },
+          "location": null,
+          "content_type": "application/problem+json",
+          "www_authenticate": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 401,
+          "body": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+            "title": "Valid bearer token required",
+            "status": 401
+          },
+          "location": null,
+          "content_type": "application/problem+json",
+          "www_authenticate": "Bearer"
+        },
+        {
+          "method": "POST",
+          "path": "/api/users",
+          "status": 401,
+          "body": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+            "title": "Valid bearer token required",
+            "status": 401
+          },
+          "location": null,
+          "content_type": "application/problem+json",
+          "www_authenticate": "Bearer"
+        },
+        {
+          "method": "PUT",
+          "path": "/api/users/2",
+          "status": 400,
+          "body": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            "title": "One or more validation errors occurred.",
+            "status": 400,
+            "errors": {
+              "name": [
+                "Name must contain 2 to 100 characters after trimming."
+              ],
+              "email": [
+                "Enter a valid email address of at most 254 characters."
+              ]
+            }
+          },
+          "location": null,
+          "content_type": "application/problem+json",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/2",
+          "status": 200,
+          "body": {
+            "id": 2,
+            "name": "Ivan Primjer",
+            "email": "ivan@example.com"
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "PUT",
+          "path": "/api/users/2",
+          "status": 204,
+          "body": null,
+          "location": null,
+          "content_type": null,
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/2",
+          "status": 200,
+          "body": {
+            "id": 2,
+            "name": "Ivan Updated",
+            "email": "ivan.updated@example.com"
+          },
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/1",
+          "status": 404,
+          "body": null,
+          "location": null,
+          "content_type": null,
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users/abc",
+          "status": 404,
+          "body": null,
+          "location": null,
+          "content_type": null,
+          "www_authenticate": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/users",
+          "status": 200,
+          "body": [
+            {
+              "id": 2,
+              "name": "Ivan Updated",
+              "email": "ivan.updated@example.com"
+            },
+            {
+              "id": 3,
+              "name": "Mia Primjer",
+              "email": "mia@example.com"
+            }
+          ],
+          "location": null,
+          "content_type": "application/json; charset=utf-8",
+          "www_authenticate": null
+        }
+      ],
+      "assertions": [
+        "Fresh process returns an empty list",
+        "First POST creates ID 1 with Location",
+        "Second POST creates ID 2 with Location",
+        "DELETE returns 204 without a response body",
+        "Corrected counter creates ID 3 after deletion",
+        "Existing user 2 remains unchanged",
+        "List has exactly the expected surviving users",
+        "Case-insensitive duplicate email returns 409",
+        "Rejected duplicate does not change stored users",
+        "Malformed JSON returns 400 Problem JSON, not 500",
+        "Missing token returns 401 and Bearer challenge",
+        "Incorrect token returns 401",
+        "Invalid PUT returns field validation errors",
+        "Rejected PUT preserves existing data",
+        "Valid PUT returns 204",
+        "GET confirms updated fields and unchanged ID",
+        "Deleted user returns 404",
+        "Non-integer route returns 404",
+        "Rejected requests did not create users",
+        "Server log does not contain the local bearer token",
+        "Completed-response log records success status and duration",
+        "Completed-response log records final handled-error status",
+        "Authentication middleware logs denied request"
+      ],
+      "log_evidence": [
+        "GET /api/users -> 200 in 65 ms",
+        "POST /api/users -> 201 in 59 ms",
+        "POST /api/users -> 201 in 2 ms",
+        "DELETE /api/users/1 -> 204 in 1 ms",
+        "POST /api/users -> 201 in 0 ms",
+        "GET /api/users/2 -> 200 in 2 ms",
+        "GET /api/users -> 200 in 1 ms",
+        "POST /api/users -> 409 in 9 ms",
+        "GET /api/users -> 200 in 0 ms",
+        "POST /api/users -> 400 in 80 ms",
+        "Denied POST /api/users with 401",
+        "Denied POST /api/users with 401",
+        "PUT /api/users/2 -> 400 in 20 ms",
+        "GET /api/users/2 -> 200 in 0 ms",
+        "PUT /api/users/2 -> 204 in 1 ms",
+        "GET /api/users/2 -> 200 in 0 ms",
+        "GET /api/users/1 -> 404 in 0 ms",
+        "GET /api/users/abc -> 404 in 0 ms",
+        "GET /api/users -> 200 in 0 ms"
+      ],
+      "passed": true,
+      "launched_process_stopped": true
+    }
+  },
+  "missing_token_startup": {
+    "passed": true,
+    "exit_code": 3762504530,
+    "diagnostic": "Set the DemoAuth__Token environment variable.",
+    "launched_process_stopped": true
+  },
+  "startup_test_note": "The first optional startup check timed out after 15 seconds; the same check passed with Windows crash-report dialogs suppressed for that child process."
+}

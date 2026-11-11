@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:5080
+@token = REPLACE_ONLY_IN_A_LOCAL_UNTRACKED_COPY
+
+### Copy this file to requests.local.http, then set your LOCAL token there.
+### Start with a fresh process. IDs are assigned by the server; adapt URLs if necessary.
+
+### List users: 200 and [] initially
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+
+### Create: 201, Location header and a server-assigned id
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Primjer Korisnika","email":"primjer@example.com"}
+
+### Read by the id returned by POST: 200
+GET {{baseUrl}}/api/users/1
+Authorization: Bearer {{token}}
+
+### Update existing user: 204
+PUT {{baseUrl}}/api/users/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Promijenjeno Ime","email":"primjer@example.com"}
+
+### Invalid input: 400, errors for name and email
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":" ","email":"nije-email"}
+
+### Duplicate email, case-insensitive policy: 409
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Druga Osoba","email":"PRIMJER@example.com"}
+
+### Delete: 204
+DELETE {{baseUrl}}/api/users/1
+Authorization: Bearer {{token}}
+
+### Missing user after deletion: 404
+GET {{baseUrl}}/api/users/1
+Authorization: Bearer {{token}}
+
+### Missing token: 401, independent of whether the id exists
+GET {{baseUrl}}/api/users
+
+### Malformed JSON: 400, not 500
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":
