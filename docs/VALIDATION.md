@@ -1,6 +1,6 @@
 # Verification record
 
-Executed on **11 November 2026** by Codex while preparing the assignment. These checks do not establish use of Microsoft Copilot or GitHub Copilot.
+Executed on **11 November 2026** by Codex while preparing the assignment and reviewing the learner's subsequent Microsoft Copilot response. The separate evidence of that interaction is in [COPILOT_DEBUGGING.md](COPILOT_DEBUGGING.md); automated checks alone are not evidence of Copilot usage.
 
 ## Environment and build
 
@@ -12,7 +12,7 @@ Executed on **11 November 2026** by Codex while preparing the assignment. These 
 
 ## Integration tests
 
-**31 passed, 0 failed, 0 skipped.**
+**33 passed, 0 failed, 0 skipped** in the final local Release run after the Copilot response was reviewed. The original preparation suite contained 31 passing tests; the two additions are described below.
 
 The final command, with the local SDK on PATH and workspace cache variables set, was:
 
@@ -23,6 +23,17 @@ dotnet test UserManagementApi.sln --configuration Release --no-restore -m:1 -nr:
 The suite covers real application routing and middleware with `WebApplicationFactory`: complete CRUD, readback after changes, trimming, invalid fields and JSON bodies, 415 content type, 404 IDs/routes, email conflicts without unintended changes, authentication, ID stability, concurrent requests, and custom log output. Each test creates a fresh application/store and a generated test token.
 
 Local TRX files are in the Git-ignored `TestResults` directory. They are excluded from the submission because they contain machine-specific paths and metadata. GitHub Actions is configured to publish its own TRX artifact when the workflow runs.
+
+### Checks added after the Microsoft Copilot response
+
+The learner reported using Microsoft Copilot and supplied the response on 11 November 2026. Codex compared it to the referenced source revision, accepted its technical diagnosis, and added these tests:
+
+| Test | Observed result |
+| --- | --- |
+| `RejectedDuplicateEmailDoesNotConsumeTheNextId` | First POST created ID 1; a case-insensitive duplicate returned 409 with the stored snapshot unchanged; the next unique POST returned 201, ID 2, and Location `/api/users/2` |
+| `NewApplicationInstanceStartsEmptyAndResetsIds` | After disposing a populated test host, a new host had an empty store and accepted the old email as a new user with ID 1 |
+
+Both passed in the full 33-test run. The second check uses fresh application hosts in the test process. It verifies in-memory store lifetime without claiming a separate operating-system process restart. `Program.cs` was unchanged and still matches the SHA-256 in the live HTTP evidence; its counter was already correct before this interaction.
 
 ## Live HTTP verification
 
@@ -54,5 +65,4 @@ The [first GitHub Actions run](https://github.com/fvsn3/user-management-api-copi
 
 ## Remaining submission steps
 
-- Complete the real Copilot interaction and update [COPILOT_DEBUGGING.md](COPILOT_DEBUGGING.md).
 - Submit the verified repository URL through Coursera. No Coursera submission has been made as part of this verification record.

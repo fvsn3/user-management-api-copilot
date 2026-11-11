@@ -1,5 +1,7 @@
 # Kratka debugging vježba s Copilotom
 
+**Status aktivnosti, 11. studenoga 2026.:** korisnik je potvrdio da je koristio Microsoft Copilot i dostavio odgovor. Odgovor i pregled zabilježeni su u [COPILOT_DEBUGGING.md](COPILOT_DEBUGGING.md). Upute ispod sačuvane su kao izvorni pripremljeni prompt i način ponavljanja vježbe.
+
 Cilj je stvarno upotrijebiti Copilot, razumjeti jedan bug i zabilježiti provjeru. Za razgovor izdvoji približno 5–10 minuta; pokretanje testova može potrajati dulje ako prvi put postavljaš .NET.
 
 Ovo je **kontrolirana vježba s namjerno pogrešnom dodjelom ID-a**. Završni `Program.cs` već koristi ispravan rastući brojač. Ne opisuj vježbu kao raniji stvarni kvar završnog API-ja. Ovaj dokument i pripremljeni prompt još nisu dokaz da je Copilot korišten.
@@ -85,4 +87,4 @@ Dodatno pošalji POST s novim imenom i emailom `IVAN@example.com`. Očekuje se 4
 
 U [COPILOT_DEBUGGING.md](COPILOT_DEBUGGING.md) upiši stvarni datum, naziv proizvoda, prompt, sažetak dobivenog odgovora, što si prihvatio i stvarne rezultate. Ako je testove pokrenuo drugi alat ili pomoćnik, jasno navedi tu podjelu rada. Dodaj commit koji sadrži dovršenu evidenciju. Namjerno pogrešnu varijantu nemoj zamijeniti za završni `Program.cs`.
 
-Kriterij još nije potvrđen dok stvarno ne upotrijebiš Copilot i ne dovršiš zapis. Razgovor s drugim AI alatom nemoj nazvati Copilot sesijom.
+Za ovu je aktivnost stvarni Microsoft Copilot odgovor sada dostavljen i zabilježen u povezanoj evidenciji. Pri ponavljanju vježbe uvijek odvojeno zabilježi što je rekao Copilot i tko je pokrenuo provjere.

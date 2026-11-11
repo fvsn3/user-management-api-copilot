@@ -14,7 +14,7 @@ The API uses .NET 10 and an in-memory store. No database or paid service is requ
 | --- | --- |
 | Public GitHub repository | [Public source repository](https://github.com/fvsn3/user-management-api-copilot) |
 | GET, POST, PUT, DELETE | Route handlers in [Program.cs](Program.cs) |
-| Copilot-assisted debugging | [Debugging evidence](docs/COPILOT_DEBUGGING.md) — **pending the actual Copilot session** |
+| Copilot-assisted debugging | [Microsoft Copilot interaction, review, and regression tests](docs/COPILOT_DEBUGGING.md) |
 | Input validation | `Validate`, `UserInput`, and duplicate-email checks in `UserStore` |
 | Middleware | Three `app.Use` components in `Program.cs`: errors, bearer-token check, request logging |
 
@@ -102,4 +102,4 @@ Actual build and test results are recorded in [VALIDATION.md](docs/VALIDATION.md
 
 ## Copilot debugging activity
 
-The actual Copilot session is still required. The [Croatian step-by-step exercise](docs/COPILOT_EXERCISE_HR.md) contains a ready-to-send prompt for a clearly labeled controlled bug: using the remaining user count to generate IDs. The [evidence record](docs/COPILOT_DEBUGGING.md) must be completed from the real conversation and before/after checks. Codex assistance and a prepared prompt are not presented as Copilot usage.
+The learner used **Microsoft Copilot** to analyze a clearly labeled controlled bug: using the remaining user count to generate IDs. The [supplied response](docs/COPILOT_RESPONSE_HR.md) explains the collision, confirms the already-correct counter in the final API, and proposes checking that a rejected duplicate email does not consume an ID. Codex reviewed that response and added regression tests for this scenario and fresh-application store reset. The [completed evidence record](docs/COPILOT_DEBUGGING.md) separates the learner's Copilot interaction from independently executed tests. The [Croatian prompt and exercise](docs/COPILOT_EXERCISE_HR.md) remain available for reproduction.

@@ -165,6 +165,59 @@ public sealed class UsersApiTests : IDisposable
         Assert.Equal(new[] { second, third }, await _client.GetFromJsonAsync<User[]>("/api/users"));
     }
 
+    [Fact]
+    public async Task RejectedDuplicateEmailDoesNotConsumeTheNextId()
+    {
+        Assert.Empty((await _client.GetFromJsonAsync<User[]>("/api/users"))!);
+        var first = await CreateUser("First User", "first@example.com");
+        Assert.Equal(1, first.Id);
+
+        var duplicateResponse = await _client.PostAsJsonAsync("/api/users",
+            new { name = "Rejected Duplicate", email = "FIRST@EXAMPLE.COM" });
+        Assert.Equal(HttpStatusCode.Conflict, duplicateResponse.StatusCode);
+        Assert.Equal(new[] { first }, await _client.GetFromJsonAsync<User[]>("/api/users"));
+
+        var nextResponse = await _client.PostAsJsonAsync("/api/users",
+            new { name = "Second User", email = "second@example.com" });
+        Assert.Equal(HttpStatusCode.Created, nextResponse.StatusCode);
+        var second = (await nextResponse.Content.ReadFromJsonAsync<User>())!;
+        Assert.Equal(2, second.Id);
+        Assert.Equal("/api/users/2", nextResponse.Headers.Location?.OriginalString);
+        Assert.Equal(new[] { first, second }, await _client.GetFromJsonAsync<User[]>("/api/users"));
+    }
+
+    [Fact]
+    public async Task NewApplicationInstanceStartsEmptyAndResetsIds()
+    {
+        // Dispose the populated host before creating its replacement. This verifies
+        // the documented lifetime of the in-memory store without changing global state.
+        using (var previousFactory = new ApiFactory())
+        using (var previousClient = previousFactory.AuthorizedClient())
+        {
+            for (var expectedId = 1; expectedId <= 2; expectedId++)
+            {
+                var response = await previousClient.PostAsJsonAsync("/api/users",
+                    new { name = $"Previous User {expectedId}", email = $"previous{expectedId}@example.com" });
+                Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+                Assert.Equal(expectedId, (await response.Content.ReadFromJsonAsync<User>())!.Id);
+            }
+            Assert.Equal(2, (await previousClient.GetFromJsonAsync<User[]>("/api/users"))!.Length);
+        }
+
+        using var newFactory = new ApiFactory();
+        using var newClient = newFactory.AuthorizedClient();
+        Assert.Empty((await newClient.GetFromJsonAsync<User[]>("/api/users"))!);
+
+        // An email from the old host is available again, and numbering starts at 1.
+        var newResponse = await newClient.PostAsJsonAsync("/api/users",
+            new { name = "New User", email = "previous1@example.com" });
+        Assert.Equal(HttpStatusCode.Created, newResponse.StatusCode);
+        var newUser = (await newResponse.Content.ReadFromJsonAsync<User>())!;
+        Assert.Equal(1, newUser.Id);
+        Assert.Equal("/api/users/1", newResponse.Headers.Location?.OriginalString);
+        Assert.Equal(newUser, Assert.Single((await newClient.GetFromJsonAsync<User[]>("/api/users"))!));
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("Bearer wrong-token")]
