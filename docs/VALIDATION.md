@@ -46,9 +46,13 @@ A separate startup check without a configured token exited with a nonzero code a
 
 The deliberately defective copy is outside the submitted project. It is a labeled teaching experiment, not an undisclosed defect in the final API. These before/after results were produced by Codex before the learner's Copilot session.
 
+## GitHub publication and hosted verification
+
+Published on 11 November 2026 to the public repository [fvsn3/user-management-api-copilot](https://github.com/fvsn3/user-management-api-copilot). The initial source commit is `de719c225babd8814d52c89dac08f2160ecc0703`.
+
+The [first GitHub Actions run](https://github.com/fvsn3/user-management-api-copilot/actions/runs/43033769253) completed successfully on Ubuntu 26.04.1 with .NET SDK 10.0.404: restore succeeded, Release build produced **0 warnings and 0 errors**, and **31 tests passed, 0 failed, 0 skipped**. The workflow uploaded its TRX test-results artifact. Subsequent workflow status is available from the README badge.
+
 ## Remaining submission steps
 
-- Publish the source to the learner's selected public GitHub account and verify anonymous access.
-- Run and verify the GitHub Actions workflow. Local Windows checks do not establish that GitHub's Linux runner has passed.
 - Complete the real Copilot interaction and update [COPILOT_DEBUGGING.md](COPILOT_DEBUGGING.md).
 - Submit the verified repository URL through Coursera. No Coursera submission has been made as part of this verification record.

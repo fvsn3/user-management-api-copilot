@@ -1,5 +1,9 @@
 # User Management API
 
+[![Build and test](https://github.com/fvsn3/user-management-api-copilot/actions/workflows/dotnet.yml/badge.svg)](https://github.com/fvsn3/user-management-api-copilot/actions/workflows/dotnet.yml)
+
+Public repository: [fvsn3/user-management-api-copilot](https://github.com/fvsn3/user-management-api-copilot).
+
 ASP.NET Core Minimal API for the Coursera **Building a Simple API with Copilot** project. It provides user CRUD operations, input validation, duplicate-email protection, and error-handling, authentication, and logging middleware.
 
 The API uses .NET 10 and an in-memory store. No database or paid service is required. This project builds on the reference example supplied with my course study notes. Integration tests and submission documentation were prepared with Codex assistance. The separate Copilot debugging activity is documented accurately below.
@@ -8,7 +12,7 @@ The API uses .NET 10 and an in-memory store. No database or paid service is requ
 
 | Criterion | Where to review |
 | --- | --- |
-| Public GitHub repository | This repository and its source files |
+| Public GitHub repository | [Public source repository](https://github.com/fvsn3/user-management-api-copilot) |
 | GET, POST, PUT, DELETE | Route handlers in [Program.cs](Program.cs) |
 | Copilot-assisted debugging | [Debugging evidence](docs/COPILOT_DEBUGGING.md) — **pending the actual Copilot session** |
 | Input validation | `Validate`, `UserInput`, and duplicate-email checks in `UserStore` |
